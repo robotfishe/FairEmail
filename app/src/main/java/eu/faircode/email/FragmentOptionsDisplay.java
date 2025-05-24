@@ -107,6 +107,7 @@ public class FragmentOptionsDisplay extends FragmentBase implements SharedPrefer
     private SwitchCompat swSeekbar;
     private SwitchCompat swActionbar;
     private SwitchCompat swActionbarSwap;
+    private SwitchCompat swActionbarLarge;
     private SwitchCompat swActionbarColor;
 
     private SwitchCompat swHighlightUnread;
@@ -292,6 +293,7 @@ public class FragmentOptionsDisplay extends FragmentBase implements SharedPrefer
         swSeekbar = view.findViewById(R.id.swSeekbar);
         swActionbar = view.findViewById(R.id.swActionbar);
         swActionbarSwap = view.findViewById(R.id.swActionbarSwap);
+        swActionbarLarge = view.findViewById(R.id.swActionbarLarge);
         swActionbarColor = view.findViewById(R.id.swActionbarColor);
 
         swHighlightUnread = view.findViewById(R.id.swHighlightUnread);
@@ -740,6 +742,7 @@ public class FragmentOptionsDisplay extends FragmentBase implements SharedPrefer
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 prefs.edit().putBoolean("actionbar", checked).apply();
                 swActionbarSwap.setEnabled(checked);
+                swActionbarLarge.setEnabled(checked);
                 swActionbarColor.setEnabled(checked);
             }
         });
@@ -748,6 +751,13 @@ public class FragmentOptionsDisplay extends FragmentBase implements SharedPrefer
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 prefs.edit().putBoolean("actionbar_swap", checked).apply();
+            }
+        });
+
+        swActionbarLarge.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                prefs.edit().putBoolean("actionbar_large", checked).apply();
             }
         });
 
@@ -1646,6 +1656,8 @@ public class FragmentOptionsDisplay extends FragmentBase implements SharedPrefer
             swActionbar.setChecked(prefs.getBoolean("actionbar", true));
             swActionbarSwap.setChecked(prefs.getBoolean("actionbar_swap", false));
             swActionbarSwap.setEnabled(swActionbar.isChecked());
+            swActionbarLarge.setChecked(prefs.getBoolean("actionbar_large",false));
+            swActionbarLarge.setEnabled(swActionbar.isChecked());
             swActionbarColor.setChecked(prefs.getBoolean("actionbar_color", false));
             swActionbarColor.setEnabled(swActionbar.isChecked());
 

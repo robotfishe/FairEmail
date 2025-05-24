@@ -359,6 +359,7 @@ public class FragmentMessages extends FragmentBase
     private boolean move_thread_sent;
     private boolean swipe_trash_all;
     private boolean actionbar;
+    private boolean actionbar_large;
     private int actionbar_delete_id;
     private int actionbar_archive_id;
     private boolean actionbar_color;
@@ -522,6 +523,7 @@ public class FragmentMessages extends FragmentBase
         boolean actionbar_swap = prefs.getBoolean("actionbar_swap", false);
         actionbar_delete_id = (actionbar_swap ? R.id.action_archive : R.id.action_delete);
         actionbar_archive_id = (actionbar_swap ? R.id.action_delete : R.id.action_archive);
+        actionbar_large = prefs.getBoolean("actionbar_large",false);
         actionbar_color = prefs.getBoolean("actionbar_color", false);
         seen_delay = prefs.getInt("seen_delay", 0);
         autoexpand = prefs.getBoolean("autoexpand", true);
@@ -8177,6 +8179,21 @@ public class FragmentMessages extends FragmentBase
                     }
 
                     bottom_navigation.setTag(data);
+
+                    ViewGroup.LayoutParams bottom_nav_layout = bottom_navigation.getLayoutParams();
+                    int actionbarHeight;
+
+                    if (!actionbar_large) {
+                        actionbarHeight = (int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP, 36f, getResources().getDisplayMetrics()
+                        );
+                    } else {
+                        actionbarHeight = (int) TypedValue.applyDimension(
+                                TypedValue.COMPLEX_UNIT_DIP, 52f, getResources().getDisplayMetrics()
+                        );
+                    };
+                    bottom_nav_layout.height = actionbarHeight;
+                    bottom_navigation.setLayoutParams(bottom_nav_layout);
 
                     bottom_navigation.getMenu().findItem(actionbar_delete_id)
                             .setIcon(data.forever ? R.drawable.twotone_delete_forever_24 : R.drawable.twotone_delete_24)
